@@ -1,7 +1,9 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-const { kStringMaxLength } = require('buffer');
-var userSchema = new mongoose.Schema({
+import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
     first: String,
     username: {type: String, unique: true},
     password: String,
@@ -23,10 +25,10 @@ userSchema.pre('save', function (next) {
 userSchema.methods.comparePassword = function(candidatePassword,next) {
 
     bcrypt.compare(candidatePassword,this.password,function(err,isMatch){
-        if(err) return next(err);
+        if(err) return (err);
         next(null,isMatch)
 
     })
 }
 
-module.exports = mongoose.model("user", userSchema)
+export default mongoose.model("user", userSchema)
