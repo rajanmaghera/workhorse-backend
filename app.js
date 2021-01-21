@@ -47,7 +47,7 @@ function authNewRefreshToken() {
 
 // create user
 
-app.post(`${baseurl}/saveUser`, (req,res) => {
+app.all(`${baseurl}/saveUser`, (req,res) => {
 
     var mod = new User(req.body)
     mod.save()
@@ -55,7 +55,7 @@ app.post(`${baseurl}/saveUser`, (req,res) => {
 
 })
 
-app.get(`${baseurl}/getUserInfo`, (req,res) => {
+app.all(`${baseurl}/getUserInfo`, (req,res) => {
 
     User.getInformation(req.cookies['jwt'], function(err,obj) {
         if (err) res.send(err)
@@ -66,7 +66,12 @@ app.get(`${baseurl}/getUserInfo`, (req,res) => {
     })
 })
 
-app.post(`${baseurl}/auth`, (req,res) => {
+app.all(`/woah`, (req,res) => {
+    res.redirect('https://google.com')
+
+})
+
+app.all(`${baseurl}/auth`, (req,res) => {
 
     User.find({username: req.body.username}, function(err,obj) {
         if (err) return err
@@ -85,7 +90,7 @@ app.post(`${baseurl}/auth`, (req,res) => {
 
 // create employee
 
-app.post(`${baseurl}/saveEmployee`, (req,res) => {
+app.all(`${baseurl}/saveEmployee`, (req,res) => {
 
     var mod = new Employee(req.body)
     mod.save()
