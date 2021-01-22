@@ -32,10 +32,6 @@ const { ObjectId } = pkg;
 
 // ---AUTH METHODS---
 
-function authVerify (token, next) {
-
-}
-
 function authNewRefreshToken() {
     let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
         algorithm: "HS256",
@@ -100,4 +96,17 @@ app.all(`${baseurl}/saveEmployee`, (req,res) => {
 
 app.listen(port, () => {
     console.log(`Workhorse-backend (Express) listening at http://localhost:${port}`)
+})
+
+// get employee list -- DUMMY
+
+app.all(`${baseurl}/getEmployeeList`, (req,res) => {
+
+    var dummyEmployeeList = [
+        {name: "John McDonald", role: "Kitchen"},
+        {name: "Olivia MacKenzie", role: "Waiter"},
+        {name: "William Shakespeare", role: "Chef"},
+    ]
+    res.status(200).send(dummyEmployeeList)
+
 })
