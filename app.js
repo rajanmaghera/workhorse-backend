@@ -24,6 +24,7 @@ var db = mongoose.connect('mongodb://localhost:27017/workhorse', {useNewUrlParse
 
 import User from './user.js'
 import Employee from './employee.js'
+import Foobar from './foobar.js'
 import pkg from 'bson';
 const { ObjectId } = pkg;
 
@@ -112,12 +113,28 @@ app.all(`${baseurl}/getEmployeeList`, (req,res) => {
 
 // get db -- DUMMY
 
-app.all(`${baseurl}/foobar`, (req,res) => {
+app.all(`${baseurl}/foobarGet`, (req,res) => {
 
-    User.find({"first": "Rajan"}, function (err, users) {
+    Foobar.find({ }, function (err, results) {
 
-        if (err) return res.status(403).send(err)
-        res.status(200).send(users)
+        if (err) return res.status(500).send(err)
+        res.status(200).send(results)
         }
-        
+     
 )})
+
+// set db -- DUMMY
+
+app.all(`${baseurl}/foobarSet`, (req,res) => {
+
+
+    var instance = new Foobar(req.body)
+
+    instance.save(function(err) {
+        if (err) return res.status(300).send(err)
+        res.sendStatus(200)
+
+    })
+ 
+    
+})
