@@ -108,5 +108,16 @@ app.all(`${baseurl}/getEmployeeList`, (req,res) => {
         {name: "William Shakespeare", role: "Chef"},
     ]
     res.status(200).send(dummyEmployeeList)
-
 })
+
+// get db -- DUMMY
+
+app.all(`${baseurl}/foobar`, (req,res) => {
+
+    User.find({"first": "Rajan"}, function (err, users) {
+
+        if (err) return res.status(403).send(err)
+        res.status(200).send(users)
+        }
+        
+)})
