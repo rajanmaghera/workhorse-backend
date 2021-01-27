@@ -5,6 +5,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import jwt from 'jsonwebtoken'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 const app = express()
 const port = process.env.PORT
@@ -27,6 +28,8 @@ import Employee from './employee.js'
 import Foobar from './foobar.js'
 import pkg from 'bson';
 const { ObjectId } = pkg;
+
+app.use(cors({origin: 'http://localhost:4200'}));
 
 // Databsa
 
