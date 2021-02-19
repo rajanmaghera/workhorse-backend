@@ -1,33 +1,6 @@
-import { addResolveFunctionsToSchema } from 'apollo-server-express'
-import { graphql, GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLSchema, GraphQLString } from 'graphql'
-import _ from 'lodash'
 import { gql } from 'apollo-server'
-import mongoose from 'mongoose'
+import Employee from './schemas/Employee.js'
 import Book from './schemas/Book.js'
-
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-  
-
-// const EmployeeType = new GraphQLObjectType({
-//     name: 'Employee',
-//     fields: () => ({
-//         id: { type: GraphQLID },
-//         firstName: { type: GraphQLString },
-//         lastName: { type: GraphQLString },
-//         email: { type: GraphQLString },
-//         managerID: { type: GraphQLID },
-//         workplaceID: { type: GraphQLID }
-//     })
-// })
 
 // const ManagerType = new GraphQLObjectType({
 //     name: 'Manager',
@@ -49,67 +22,59 @@ const books = [
 //     })
 // })
 
-// const RootQuery = new GraphQLObjectType({
-//     name: 'RootQueryType',
-//     fields: {
-//         employee: {
-//             type: EmployeeType,
-//             args: {
-//                 id: { type: GraphQLID }
-//             },
-//             resolve(parent, args) {
-//                 return 'hello!'
-//             }
-//         },
 
-//         manager: {
-//             type: ManagerType,
-//             args: {
-//                 id: { type: GraphQLID }
-//             },
-//             resolve(parent, args) {
-//                 return 'hello!'
-//             }
-//         },
-//         workplace: {
-//             type: WorkplaceType,
-//             args: {
-//                 id: { type: GraphQLID }
-//             },
-//             resolve(parent, args) {
-//                 return 'hello!'
-//             }
-//         },
-//     }
-// })
-
-// export default new GraphQLSchema({
-//     query: RootQuery
-// })
 
 export const typeDefs = gql`
+   
     # Type Defs
-
     type Book {
         id: ID
         title: String
         author: String
     }
 
+    type Employee {
+        id: ID
+        first: String
+        last: String
+        dob: Date
+        role: String
+        email: String
+        managerID: ID
+        workplaceID: ID
+    }
+
+    type Manager {
+        id: ID
+        first: String
+        last: String
+        dob: Date
+        email: String
+        workplaceID: ID
+        employeeIDs: [ID]
+    }
+
+    type Workplace {
+        id: ID
+        name: String
+        address: String
+        employees: [Employee]
+    }
+
     # Query Type
     type Query {
         books: [Book]!
         book(title: String!): Book!
-
+        employees: [Employee]!
+        employee(id: ID!): Employee!
     }
 `
 
-export const resolvers =  {
+export const resolvers = {
     Query: {
-        books: () => Book.find(),
-        book: async (parent, args) => {
-            const found = await Book.findOne({title: args.title}).exec()
-            return found
-        }
+        books: async () => await Book.find(),
+        book: async (parent, args) => await Book.findOne({ title: args.title }).exec(),
+        employees: async () => await Employee.find(),
+        employee: async (parent, args) => await Employee.findOne({ _id: args.id })
     }
 }
