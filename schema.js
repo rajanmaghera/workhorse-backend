@@ -25,7 +25,7 @@ import Book from './schemas/Book.js'
 
 
 export const typeDefs = gql`
-   
+
     # Type Defs
     type Book {
         id: ID
@@ -37,7 +37,7 @@ export const typeDefs = gql`
         id: ID
         first: String
         last: String
-        dob: Date
+        #dob: Date
         role: String
         email: String
         managerID: ID
@@ -48,7 +48,7 @@ export const typeDefs = gql`
         id: ID
         first: String
         last: String
-        dob: Date
+        #dob: Date
         email: String
         workplaceID: ID
         employeeIDs: [ID]

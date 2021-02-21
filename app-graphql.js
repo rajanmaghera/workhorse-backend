@@ -21,3 +21,8 @@ server.listen().then(({url}) => {
     console.log(`Server ready at ${url}`)
 })
 
+
+// import Book from './schemas/Book.js'
+//
+// const obj = new Book({title: "Lord of the Flies", author: "William Golding"})
+// obj.save()
