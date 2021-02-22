@@ -68,13 +68,26 @@ export const typeDefs = gql`
         employees: [Employee]!
         employee(id: ID!): Employee!
     }
+
+    # Mutations
+    type Mutation {
+      addBook(title: String!, author: String!): Book!
+    }
+
 `
 
 export const resolvers = {
     Query: {
-        books: async () => await Book.find(),
+        books: async () => await Book.find().sort({_id: -1}),
         book: async (parent, args) => await Book.findOne({ title: args.title }).exec(),
         employees: async () => await Employee.find(),
         employee: async (parent, args) => await Employee.findOne({ _id: args.id })
+    },
+    Mutation: {
+      addBook: async (_, args) => {
+        const book = await new Book({title: args.title, author: args.author})
+        book.save()
+        return book
+      }
     }
 }
